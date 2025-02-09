@@ -1,5 +1,10 @@
 package fog.mcpp.gui;
 
+import fog.mcpp.MCPP;
+import fog.mcpp.block.entity.CodeBlockBlockEntity;
+import fog.mcpp.gui.widget.CodeEditorWidget;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -9,18 +14,23 @@ import net.minecraft.client.gui.widget.TextWidget;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import org.jetbrains.annotations.ApiStatus;
+import org.lwjgl.glfw.GLFW;
+import fog.mcpp.MCPP;
 
 public class CodeBlockScreen extends HandledScreen<CodeBlockScreenHandler> {
     private final CodeBlockScreenHandler handler;
-    private TextFieldWidget textField; // 主编辑框
+    private BlockPos blockPos;
+    private CodeEditorWidget codeEditor; // 主编辑框
     private String fileName = Text.translatable("gui.mcpp.filename").toString(); // 文件名
-
+    private float scrollOffset = 0;
 
     public CodeBlockScreen(CodeBlockScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler,inventory ,title);
         this.titleX = 0;
         this.handler = handler;
+        this.blockPos = handler.getPos();
     }
 
     @Override
@@ -46,14 +56,21 @@ public class CodeBlockScreen extends HandledScreen<CodeBlockScreenHandler> {
         ));
 
         // TextField
-        this.textField = new TextFieldWidget(
-                this.textRenderer,
-                10, topMargin + 20, //X,Y
-                this.width - 20, textFieldHeight, //Width, Height
-                Text.translatable("gui.mcpp.code_block.editor.text_field")
+        this.codeEditor = new CodeEditorWidget(
+                MinecraftClient.getInstance(),
+                this.width - 20,
+                this.height - 60,
+                this.titleY + 20,
+                this.height - 40
         );
-        this.textField.setMaxLength(10000); // 最大长度
-        this.addDrawableChild(this.textField);
+        this.addDrawableChild(this.codeEditor);
+
+        if(client.world != null){
+            BlockEntity blockEntity = client.world.getBlockEntity(blockPos);
+            if(blockEntity instanceof CodeBlockBlockEntity codeBlockBlockEntity){
+                codeEditor.write(codeBlockBlockEntity.getContent());
+            }
+        }
 
         // 按钮布局
         int buttonWidth = 60;
@@ -86,12 +103,38 @@ public class CodeBlockScreen extends HandledScreen<CodeBlockScreenHandler> {
 
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
-        renderBackground(context,mouseX,mouseY,delta);
-        super.render(context, mouseX, mouseY, delta);
+        renderBackground(context, mouseX, mouseY, delta);
+        super.render(context,mouseX,mouseY,delta);
+    }
+
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if(keyCode == GLFW.GLFW_KEY_E){
+            return false;
+        }
+        if(keyCode == GLFW.GLFW_KEY_ESCAPE){
+            return super.keyPressed(keyCode,scanCode,modifiers);
+        }
+        return this.codeEditor.keyPressed(keyCode, scanCode, modifiers);
+    }
+
+    @Override
+    public boolean charTyped(char chr, int modifiers){
+        MCPP.LOGGER.info("CodeBlockScreen.charTyped caught.");
+        return this.codeEditor.charTyped(chr,modifiers);
     }
 
     @Override
     public void close(){
+        if(client.world != null){
+            BlockEntity blockEntity = client.world.getBlockEntity(blockPos);
+            if(blockEntity instanceof CodeBlockBlockEntity codeBlockBlockEntity){
+                codeBlockBlockEntity.setContent(codeEditor.getText());
+            }
+        }
+
         super.close();
     }
+
+
 }

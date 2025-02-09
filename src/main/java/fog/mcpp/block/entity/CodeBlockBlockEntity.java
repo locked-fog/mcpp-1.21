@@ -12,7 +12,7 @@ public class CodeBlockBlockEntity extends BlockEntity {
     private boolean auto;
     private String content = "";
     private String filename = "untitled.mcpp";
-
+    public BlockPos pos;
 
     public String getFilename() {
         return filename;
@@ -31,6 +31,11 @@ public class CodeBlockBlockEntity extends BlockEntity {
 
     public CodeBlockBlockEntity(BlockPos pos,BlockState state){
         super(ModBlockEntities.CODE_BLOCK, pos,state);
+        this.pos = pos;
+    }
+
+    public void setGuiPos(BlockPos pos){
+        this.pos = pos;
     }
 
     public void setAuto(boolean auto){

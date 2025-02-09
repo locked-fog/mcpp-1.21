@@ -48,7 +48,6 @@ public class CodeBlock extends BlockWithEntity implements OperatorBlock {
 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit){
-        MCPP.LOGGER.info("CodeBlock.onUse");
         if(!world.isClient){
             player.openHandledScreen(state.createScreenHandlerFactory(world, pos));
         }
@@ -58,9 +57,8 @@ public class CodeBlock extends BlockWithEntity implements OperatorBlock {
     @Override
     public NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos){
         return new SimpleNamedScreenHandlerFactory(
-                (syncId, playerInventory, player) -> new CodeBlockScreenHandler(syncId, playerInventory),
-                Text.translatable("container.mcpp.code_block")
-        );
+                (syncId, playerInventory, player) -> new CodeBlockScreenHandler(syncId, playerInventory, pos),
+                Text.translatable("container.mcpp.code_block"));
     }
     @Override
     public BlockRenderType getRenderType(BlockState state) {
