@@ -3,13 +3,13 @@
 	"id": "mcpp",
 	"version": "${version}",
 	"name": "MCPP",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "A mod which let you can use C++-like language in Minecraft",
 	"authors": [
-		"Me!"
+		"Locked_Fog"
 	],
 	"contact": {
 		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"sources": "https://github.com/locked-fog/mcpp-1.21"
 	},
 	"license": "CC0-1.0",
 	"icon": "assets/mcpp/icon.png",
@@ -17,6 +17,9 @@
 	"entrypoints": {
 		"main": [
 			"fog.mcpp.MCPP"
+		],
+		"client": [
+			"fog.mcpp.MCPPClient"
 		]
 	},
 	"mixins": [

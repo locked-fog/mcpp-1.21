@@ -1,0 +1,10 @@
+{
+  "block.mcpp.code_block": "Code Block",
+  "gui.mcpp.filename": "untitled.mcpp",
+  "gui.mcpp.code_block.editor": "Code Block Editor",
+    "gui.mcpp.code_block.editor.opened_file": "Opened File: ",
+    "gui.mcpp.code_block.editor.text_filed": "Text Filed",
+    "gui.mcpp.code_block.editor.open": "Open",
+    "gui.mcpp.code_block.editor.save": "Save",
+    "gui.mcpp.code_block.editor.close": "Close"
+}

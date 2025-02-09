@@ -1,0 +1,10 @@
+{
+  "block.mcpp.code_block": "代码方块",
+  "gui.mcpp.filename": "未命名.mcpp",
+  "gui.mcpp.code_block.editor": "代码方块编辑器",
+    "gui.mcpp.code_block.editor.opened_file": "打开的文件: ",
+    "gui.mcpp.code_block.editor.text_filed": "编辑区",
+    "gui.mcpp.code_block.editor.open": "打开",
+    "gui.mcpp.code_block.editor.save": "保存",
+    "gui.mcpp.code_block.editor.close": "关闭"
+}

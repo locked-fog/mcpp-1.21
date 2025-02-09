@@ -1,0 +1,5 @@
+{
+  "variants": {
+    "": { "model": "mcpp:block/code_block" }
+  }
+}

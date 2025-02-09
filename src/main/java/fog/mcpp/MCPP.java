@@ -1,5 +1,9 @@
 package fog.mcpp;
 
+import fog.mcpp.block.ModBlocks;
+import fog.mcpp.block.entity.ModBlockEntities;
+import fog.mcpp.gui.ModScreenHandlers;
+import fog.mcpp.item.ModItems;
 import net.fabricmc.api.ModInitializer;
 
 import org.slf4j.Logger;
@@ -19,6 +23,17 @@ public class MCPP implements ModInitializer {
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
 
-		LOGGER.info("Hello Fabric world!");
+		LOGGER.info("Loading MCPP");
+		ModBlocks.initModBlocks();
+		LOGGER.info("Blocks loaded!");
+		ModItems.initModItems();
+		LOGGER.info("Items loaded!");
+		ModBlockEntities.initModBlockEntities();
+		LOGGER.info("Block Entities loaded!");
+		ModScreenHandlers.initModScreenHandlers();
+		LOGGER.info("Screen Handlers loaded!");
+
+
+		LOGGER.info("MCPP loaded!");
 	}
 }
